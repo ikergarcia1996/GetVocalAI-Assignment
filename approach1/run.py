@@ -151,6 +151,7 @@ def evaluate(
                 )
 
     if accelerator.is_local_main_process:
+        
         precision, recall, f1 = sent_scorer.compute()
         print(f"Precision: {precision:.4f}, Recall: {recall:.4f}, F1: {f1:.4f}")
         sent_scorer.print_summary(output_dir=output_dir)
@@ -164,6 +165,8 @@ def evaluate(
         conversation_scorer.print_predictions(
             os.path.join(output_dir, "predictions.json")
         )
+        with open(os.path.join(output_dir, "accuracy.txt"), "w",encoding="utf8") as f:
+            print(f"Conversation accuracy: {acc}", file=f)
 
     model.train()
 

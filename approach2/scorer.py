@@ -1,12 +1,7 @@
-from typing import List, Tuple
+from typing import List
 import json
 import numpy as np
-from transformers import PreTrainedTokenizer, BatchEncoding
-import torch
-import logging
-import matplotlib.pyplot as plt
 import os
-
 
 class ConversationAccuracyScorer:
     def __init__(self, gold_data_path: str, predicted_labels: List[float]):
@@ -45,11 +40,10 @@ class ConversationAccuracyScorer:
         for example in self.data:
             predicted_labels = example["predicted_label"]
             gold_label = example["label"]
+            if gold_label == -1:
+                continue # We skip this case for now
             # Test if no candidate is more than 0.5
-            if all([label < 0.5 for label in predicted_labels]):
-                predicted_label = -1
-            else:
-                predicted_label = np.argmax(predicted_labels)
+            predicted_label = np.argmax(predicted_labels)
 
             if predicted_label == gold_label:
                 correct += 1
@@ -65,6 +59,7 @@ class ConversationAccuracyScorer:
         Returns:
             None
         """
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf8") as f:
             print(json.dump(self.data, f, indent=4, ensure_ascii=False))

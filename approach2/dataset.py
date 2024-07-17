@@ -40,10 +40,14 @@ def prepare_input(
     """
     conversation = example["conversation"]
     candidates = example["candidates"]
+    if len(conversation) % 2 == 0:
+        conversation = conversation[
+            1:
+        ]  # Ensure that assistant is always the last one to speak
 
     examples = []
     for candidate in candidates:
-        #print(altenate_roles(conversation + candidate))
+        # print(altenate_roles(conversation + candidate))
         labels = tokenizer.apply_chat_template(
             altenate_roles(conversation + candidate),
             tokenize=False,
