@@ -1,11 +1,9 @@
-from typing import List, Tuple
 import json
-import numpy as np
-from transformers import PreTrainedTokenizer, BatchEncoding
-import torch
-import logging
-import matplotlib.pyplot as plt
 import os
+from typing import List, Tuple
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 class ConversationAccuracyScorer:

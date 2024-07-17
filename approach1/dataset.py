@@ -1,12 +1,10 @@
+import json
+import logging
+from typing import Dict, List, Union
+
 from torch.utils.data import DataLoader, Dataset
 from tqdm.auto import tqdm
-from typing import List, Dict, Union
-import logging
-import json
-from transformers import PreTrainedTokenizer, BatchEncoding, DataCollatorWithPadding
-import os
-import multiprocessing
-from functools import partial
+from transformers import BatchEncoding, DataCollatorWithPadding, PreTrainedTokenizer
 
 
 def prepare_input(

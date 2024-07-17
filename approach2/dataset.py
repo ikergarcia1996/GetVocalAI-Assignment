@@ -1,7 +1,8 @@
 import json
+from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
-from copy import deepcopy
+
 import numpy as np
 from torch.utils.data import DataLoader, Dataset
 from tqdm.auto import tqdm

@@ -1,7 +1,9 @@
-from typing import List
 import json
-import numpy as np
 import os
+from typing import List
+
+import numpy as np
+
 
 class ConversationAccuracyScorer:
     def __init__(self, gold_data_path: str, predicted_labels: List[float]):
@@ -41,7 +43,7 @@ class ConversationAccuracyScorer:
             predicted_labels = example["predicted_label"]
             gold_label = example["label"]
             if gold_label == -1:
-                continue # We skip this case for now
+                continue  # We skip this case for now
             # Test if no candidate is more than 0.5
             predicted_label = np.argmax(predicted_labels)
 

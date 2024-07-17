@@ -1,11 +1,12 @@
-from load_model import load_model
+import argparse
+import os
+
+import torch
 from accelerate import Accelerator
 from dataset import get_dataloader
-from tqdm.auto import tqdm
-import torch
+from load_model import load_model
 from scorer import ConversationAccuracyScorer
-import os
-import argparse
+from tqdm.auto import tqdm
 
 
 @torch.no_grad()
@@ -36,7 +37,7 @@ def main(
             attention_mask=batch.attention_mask,
         )
         logits = outputs["logits"] if isinstance(outputs, dict) else outputs[0]
-        
+
         batch_size, sequence_length, vocab_size = logits.size()
 
         # Flatten the logits and labels for cross_entropy computation
@@ -75,8 +76,6 @@ def main(
         os.path.join(model_name_or_path.replace("/", "_"), "accuracy.txt"), "w"
     ) as f:
         print(f"Accuracy: {acc}", file=f)
-
-
 
 
 if __name__ == "__main__":

@@ -5,6 +5,9 @@ import sys
 import torch
 import wandb
 from accelerate import Accelerator
+from config import DataTrainingArguments, ModelArguments
+from dataset import get_dataloader
+from scorer import ConversationAccuracyScorer, SentenceScorer
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 from transformers import (
@@ -17,10 +20,6 @@ from transformers import (
     TrainingArguments,
     get_scheduler,
 )
-
-from config import DataTrainingArguments, ModelArguments
-from dataset import get_dataloader
-from scorer import ConversationAccuracyScorer, SentenceScorer
 
 
 def get_dtype(accelerator: Accelerator):
@@ -151,7 +150,6 @@ def evaluate(
                 )
 
     if accelerator.is_local_main_process:
-        
         precision, recall, f1 = sent_scorer.compute()
         print(f"Precision: {precision:.4f}, Recall: {recall:.4f}, F1: {f1:.4f}")
         sent_scorer.print_summary(output_dir=output_dir)
@@ -165,7 +163,7 @@ def evaluate(
         conversation_scorer.print_predictions(
             os.path.join(output_dir, "predictions.json")
         )
-        with open(os.path.join(output_dir, "accuracy.txt"), "w",encoding="utf8") as f:
+        with open(os.path.join(output_dir, "accuracy.txt"), "w", encoding="utf8") as f:
             print(f"Conversation accuracy: {acc}", file=f)
 
     model.train()
