@@ -8,6 +8,7 @@ import os
 import multiprocessing
 from functools import partial
 
+
 def prepare_input(
     example: Dict[str, Union[List[Dict[str, str]], List[Dict[str, str]]]],
     tokenizer: PreTrainedTokenizer,
@@ -58,7 +59,6 @@ def prepare_input(
             inputs["attention_mask"] = inputs["attention_mask"][-max_length + 1 :]
             inputs["attention_mask"] = [first_token] + inputs["attention_mask"]
 
-
         inputs["label"] = 1 if candidate_no == label else 0
 
         model_inputs.append(inputs)
@@ -82,7 +82,7 @@ class ConversationDataset(Dataset):
         """
 
         self.dataset_path = dataset_path
-        
+
         examples = []
         print(f"Loading dataset from {dataset_path}")
         with open(dataset_path, "r", encoding="utf8") as f:
@@ -100,10 +100,6 @@ class ConversationDataset(Dataset):
                     example=example, tokenizer=tokenizer, max_length=max_length
                 )
             )
-
-
-
-
 
         print(f"Prepared {len(self.dataset)} examples")
 

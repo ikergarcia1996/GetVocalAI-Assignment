@@ -57,13 +57,13 @@ class ConversationAccuracyScorer:
 
         return correct / total
 
-    def print_predictions(self, output_path:str):
+    def print_predictions(self, output_path: str):
         """
         Print the predictions to a json file
         Args:
             output_path: str
-        Returns:    
-            None    
+        Returns:
+            None
         """
 
         with open(output_path, "w", encoding="utf8") as f:
@@ -80,7 +80,12 @@ class SentenceScorer:
         self.tn_examples: List[str] = []
         self.fp_examples: List[str] = []
 
-    def add_batch(self, input_texts: List[str], predicted_labels: List[float], gold_labels:List[float]):
+    def add_batch(
+        self,
+        input_texts: List[str],
+        predicted_labels: List[float],
+        gold_labels: List[float],
+    ):
         """
         Add a batch of model inputs and labels to the scorer
         Args:
@@ -90,8 +95,6 @@ class SentenceScorer:
             None
         """
 
-
-
         if len(gold_labels) != len(predicted_labels):
             raise ValueError(
                 f"Number of labels does not match number of inputs. Gold labels: {len(gold_labels)}, Predicted labels: {len(predicted_labels)}"
@@ -100,7 +103,6 @@ class SentenceScorer:
         for gold_label, predicted_label, text in zip(
             gold_labels, predicted_labels, input_texts
         ):
-            print(gold_label, predicted_label)
             if gold_label == 1 and predicted_label == 1:
                 self.tp += 1
             elif gold_label == 1 and predicted_label == 0:
